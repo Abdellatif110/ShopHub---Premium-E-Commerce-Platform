@@ -2567,3 +2567,41 @@ body {
     font-size: 28px;
   }
 }
+/* Empty Cart Styles */
+.empty-cart {
+  text-align: center;
+  padding: 100px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.empty-cart-icon {
+  font-size: 100px;
+  margin-bottom: 30px;
+  opacity: 0.5;
+}
+
+.empty-cart h2 {
+  font-size: 2rem;
+  color: #2d3748;
+  margin-bottom: 15px;
+}
+
+.empty-cart p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  margin-bottom: 40px;
+}
+
+/* Checkout Page Enhancements */
+.quantity-label {
+  margin-left: 8px;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.quantity-label:hover {
+  border-color: #667eea;
+}

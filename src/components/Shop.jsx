@@ -1,21 +1,34 @@
 import React, { useState } from 'react';
 import { products } from '../data/products';
+import { useCart } from '../context/CartContext';
 
 const Shop = () => {
-    const [cart, setCart] = useState([]);
+    const { addToCart } = useCart();
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
     const [addedProducts, setAddedProducts] = useState(new Set());
+    const [quantities, setQuantities] = useState({});
 
-    const addToCart = (productId) => {
-        setAddedProducts(prev => new Set([...prev, productId]));
+    const handleAddToCart = (product) => {
+        const quantity = quantities[product.id] || 1;
+        addToCart(product, quantity);
+
+        // Show success animation
+        setAddedProducts(prev => new Set([...prev, product.id]));
         setTimeout(() => {
             setAddedProducts(prev => {
                 const newSet = new Set(prev);
-                newSet.delete(productId);
+                newSet.delete(product.id);
                 return newSet;
             });
         }, 2000);
+    };
+
+    const updateQuantity = (productId, value) => {
+        setQuantities(prev => ({
+            ...prev,
+            [productId]: parseInt(value) || 1
+        }));
     };
 
     const formatPrice = (priceCents) => {
@@ -28,7 +41,6 @@ const Shop = () => {
     };
 
     // Get unique categories
-    const categories = ['all', ...new Set(products.flatMap(p => p.keywords))];
     const popularCategories = ['all', 'apparel', 'kitchen', 'sports', 'shoes'];
 
     // Filter products
@@ -98,8 +110,8 @@ const Shop = () => {
 
                         <div className="product-info-premium">
                             <div className="product-category-tags">
-                                {product.keywords.slice(0, 2).map(tag => (
-                                    <span key={tag} className="product-tag">{tag}</span>
+                                {product.keywords.slice(0, 2).map((tag, index) => (
+                                    <span key={`${product.id}-${tag}-${index}`} className="product-tag">{tag}</span>
                                 ))}
                             </div>
 
@@ -128,7 +140,11 @@ const Shop = () => {
                             </div>
 
                             <div className="product-actions-premium">
-                                <select className="quantity-select-premium">
+                                <select
+                                    className="quantity-select-premium"
+                                    value={quantities[product.id] || 1}
+                                    onChange={(e) => updateQuantity(product.id, e.target.value)}
+                                >
                                     {[...Array(10)].map((_, i) => (
                                         <option key={i + 1} value={i + 1}>Qty: {i + 1}</option>
                                     ))}
@@ -136,7 +152,7 @@ const Shop = () => {
 
                                 <button
                                     className={`add-to-cart-premium ${addedProducts.has(product.id) ? 'added' : ''}`}
-                                    onClick={() => addToCart(product.id)}
+                                    onClick={() => handleAddToCart(product)}
                                     disabled={addedProducts.has(product.id)}
                                 >
                                     {addedProducts.has(product.id) ? (

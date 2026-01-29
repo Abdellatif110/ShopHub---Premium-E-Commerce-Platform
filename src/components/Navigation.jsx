@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 const Navigation = () => {
     const location = useLocation();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { getCartCount } = useCart();
 
     const navLinks = [
         { path: '/', label: 'Home', icon: '🏠' },
@@ -48,7 +50,7 @@ const Navigation = () => {
                     <Link to="/checkout" className="nav-action-btn cart-btn">
                         <span className="action-icon">🛒</span>
                         <span>Cart</span>
-                        <span className="cart-badge">3</span>
+                        {getCartCount() > 0 && <span className="cart-badge">{getCartCount()}</span>}
                     </Link>
                 </div>
 
@@ -89,7 +91,7 @@ const Navigation = () => {
                         onClick={() => setMobileMenuOpen(false)}
                     >
                         <span className="nav-link-icon">🛒</span>
-                        <span>Cart</span>
+                        <span>Cart {getCartCount() > 0 && `(${getCartCount()})`}</span>
                     </Link>
                 </div>
             )}
