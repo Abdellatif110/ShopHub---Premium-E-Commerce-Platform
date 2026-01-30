@@ -16,7 +16,6 @@ function AppContent() {
   return (
     <div className="app-container">
       <Navigation />
-
       <div className="content-wrap">
         <Routes>
           <Route path="/" element={<Home />} />

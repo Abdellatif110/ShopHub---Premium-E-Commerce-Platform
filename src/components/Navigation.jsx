@@ -24,7 +24,7 @@ const Navigation = () => {
                 {/* Logo */}
                 <Link to="/" className="nav-logo">
                     <span className="nav-logo-icon">🛍️</span>
-                    <span className="nav-logo-text">ShopHub</span>
+                    <span className="nav-logo-text">Shop-Abdellatif</span>
                 </Link>
 
                 {/* Desktop Navigation */}
